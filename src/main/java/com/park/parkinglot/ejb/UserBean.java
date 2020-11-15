@@ -44,7 +44,8 @@ public class UserBean {
             UserDetails userDetails = new UserDetails(user.getId(), 
                     user.getUsername(), 
                     user.getEmail(), 
-                    user.getPosition());
+                    user.getPosition()
+                   );
             detailsList.add(userDetails);
         }
         return detailsList;
