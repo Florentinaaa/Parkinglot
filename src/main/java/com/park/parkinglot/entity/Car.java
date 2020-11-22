@@ -20,18 +20,20 @@ import javax.persistence.Table;
  * @author Florri
  */
 @Entity
-@Table(name = "CARS")
+@Table(name= "CARS")
 public class Car implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    
     private String licensePlate;
     private String parkingSpot;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_KEY")
-    private User user;
+    
+private User user;
 
     public String getLicensePlate() {
         return licensePlate;
@@ -64,6 +66,9 @@ public class Car implements Serializable {
     public void setId(Integer id) {
         this.id = id;
     }
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
     @Override
     public int hashCode() {
@@ -87,7 +92,7 @@ public class Car implements Serializable {
 
     @Override
     public String toString() {
-        return "com.park.parkinglot.entity.Cars[ id=" + id + " ]";
+        return "com.park.parkinglot.entity.Car[ id=" + id + " ]";
     }
     
 }

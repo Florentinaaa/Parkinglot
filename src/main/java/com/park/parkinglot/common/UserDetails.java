@@ -5,28 +5,25 @@
  */
 package com.park.parkinglot.common;
 
-/**
- *
- * @author Florri
- */
-public class UserDetails implements java.io.Serializable {
+
+public class UserDetails {
     private Integer id;
     private String username;
     private String email;
     private String position;
-    
-    public UserDetails(Integer id , String username , String email , String position){
-    this.id = id;
-    this.username = username ;
-    this.email = email ;
-    this.position = position;    
+
+    public UserDetails(Integer id, String username, String email, String position) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.position = position;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+public void setId(Integer id) {
         this.id = id;
     }
 
@@ -34,7 +31,7 @@ public class UserDetails implements java.io.Serializable {
         return username;
     }
 
-    public void setUsername(String username) {
+public void setUsername(String username) {
         this.username = username;
     }
 
@@ -42,7 +39,7 @@ public class UserDetails implements java.io.Serializable {
         return email;
     }
 
-    public void setEmail(String email) {
+public void setEmail(String email) {
         this.email = email;
     }
 
@@ -54,5 +51,9 @@ public class UserDetails implements java.io.Serializable {
         this.position = position;
     }
 
-}
 
+
+
+
+
+}

@@ -6,10 +6,11 @@
 package com.park.parkinglot.servlet;
 
 import com.park.parkinglot.common.CarDetails;
+import com.park.parkinglot.common.UserDetails;
 import com.park.parkinglot.ejb.CarBean;
+import com.park.parkinglot.ejb.UserBean;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -18,12 +19,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-@WebServlet(name = "Cars", urlPatterns = {"/Cars"})
-public class Cars extends HttpServlet {
+/**
+ *
+ * @author Florri
+ */
+@WebServlet(name = "EditCar", urlPatterns = {"/EditCar"})
+public class EditCar extends HttpServlet {
     
     @Inject
-    private CarBean carBean ;
+    UserBean userBean ;       
+    @Inject
+    CarBean carBean;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +48,10 @@ public class Cars extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Cars</title>");
+            out.println("<title>Servlet EditCar</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Cars at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet EditCar at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,15 +67,14 @@ public class Cars extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+   protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
- request.setAttribute("activePage","Cars");
-      request.setAttribute("numberOfFreeParkingSpots",10);
-      
-      List<CarDetails> cars = carBean.getAllCars();
-      request.setAttribute("cars" , cars );
-      
-      request.getRequestDispatcher("/WEB-INF/pages/cars.jsp").forward(request,response);
+        List<UserDetails> users=userBean.getAllUsers();
+        request.setAttribute("users", users);
+        int carId=Integer.parseInt(request.getParameter("id"));
+        CarDetails car=carBean.findById(carId);
+        request.setAttribute("car", car);
+         request.getRequestDispatcher("/WEB-INF/pages/editCar.jsp").forward(request, response);
     }
 
     /**
@@ -81,16 +86,13 @@ public class Cars extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-  protected void doPost(HttpServletRequest request, HttpServletResponse response)
+   protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String[] carIdsAsString=request.getParameterValues("car_ids");
-        if(carIdsAsString!=null){
-            List<Integer> carIds=new ArrayList<>();
-            for(String carIdAsString: carIdsAsString){
-                carIds.add(Integer.parseInt(carIdAsString));
-            }
-            carBean.deleteCarsByIds(carIds);
-        }
+        String licensePlate=request.getParameter("license_plate");
+        String parkingSpot=request.getParameter("parking_Spot");
+        int ownerId=Integer.parseInt(request.getParameter("owner_id"));
+        int carId=Integer.parseInt(request.getParameter("car_id"));
+        carBean.updateCar(carId,licensePlate,parkingSpot,ownerId);
         processRequest(request, response);
     }
 
